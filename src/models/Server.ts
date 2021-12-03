@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import Routes from '../routes';
+import Routes from '../routes/router.index';
 
 import cors from 'cors';
 import bodyParser from 'body-parser';

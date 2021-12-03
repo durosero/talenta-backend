@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import express from "express";
 const app = express();
 
-import routerUsuario from "../routes/usuario";
+import routerUsuario from "./router.usuario";
 
-import routerInicio from "../routes/inicio";
+import routerInicio from "./router.inicio";
 
 //====================
 //   ROUTES: /api

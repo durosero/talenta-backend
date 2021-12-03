@@ -1,7 +1,7 @@
 import  { Router } from 'express';
 import { validatorCamposUser } from '../middlewares/validar-campos';
 const router = Router();
-import  {  auth, saveUser } from '../controllers/usuario';
+import  {  auth, saveUser } from '../controllers/controller.usuario';
 
 
 
@@ -12,6 +12,7 @@ import  {  auth, saveUser } from '../controllers/usuario';
 
 router.get('/auth', auth);
 router.post('/', [validatorCamposUser], saveUser);
+
 
 
 
