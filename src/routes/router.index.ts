@@ -3,6 +3,7 @@ import express from "express";
 const app = express();
 
 import routerUsuario from "./router.usuario";
+import routerLibro from "./router.libro";
 
 import routerInicio from "./router.inicio";
 
@@ -21,5 +22,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/usuario", routerUsuario);
+app.use("/libro", routerLibro);
 
 export default app;

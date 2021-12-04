@@ -1,22 +1,27 @@
+import { saveLibroService } from "../provider/provider.libro";
+import { Libro } from "../interfaces/database";
+
+//====================
+// POST  /libro/
+//=====================
 export const saveUser = async (req: any, res: any) => {
     let body = req.body;
 
     try {
-        // const data: Usuario = {
-        //     nombres: body.nombres,
-        //     apellidos: body.apellidos,
-        //     email: body.email,
-        //     direccion: body.direccion,
-        //     celular: body.genero
-        // };
+        const data: Libro = {
+            titulo : body.titulo,
+            editorial : body.editorial,
+            nombre_autor : body.nombre_autor,
+            area : body.area,
+        };
 
-        // const resultDB = await saveUserService(data);
+        const resultDB = await saveLibroService(data);
 
-        // return res.status(200).json({
-        //     error: false,
-        //     message: "Usuario guardado exitosamente",
-        //     resultDB
-        // });
+        return res.status(200).json({
+            error: false,
+            message: "Libro guardado exitosamente",
+            resultDB
+        });
 
     } catch (error) {
         console.log(error);

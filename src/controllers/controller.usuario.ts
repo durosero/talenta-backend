@@ -1,34 +1,17 @@
-//====================
-//   /usuario/auth 
-//=====================
-
 
 import { Usuario } from "../interfaces/database";
 import { saveUserService } from "../provider/provider.usuario";
 
-export const auth = async (req: any, res: any) => {
-    let tokenMail = req.params.token;
 
-    try {
-        return res.status(200).json({
-            error: true,
-            message: "listto para autenticar",
-        });
-
-    } catch (error) {
-        return res.status(200).json({
-            error: true,
-            message: "Algo salio mal",
-        });
-
-    }
-};
-
+//====================
+// POST  /usuario/ 
+//=====================
 export const saveUser = async (req: any, res: any) => {
     let body = req.body;
 
     try {
         const data: Usuario = {
+            id_usuario: body.id_usuario,
             nombres: body.nombres,
             apellidos: body.apellidos,
             email: body.email,
