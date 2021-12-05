@@ -15,3 +15,14 @@ export const saveUserService = async (params: Usuario) => {
         return false;
     }
 };
+
+
+export const deleteUsuarioService = async (id: number) => {
+
+    return await conDB("usuario")
+    .where({
+        'id_usuario': id
+    })
+    .del();
+
+};

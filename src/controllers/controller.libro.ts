@@ -1,4 +1,4 @@
-import { saveLibroService } from "../provider/provider.libro";
+import { deleteLibroService, saveLibroService } from "../provider/provider.libro";
 import { Libro } from "../interfaces/database";
 
 //====================
@@ -20,6 +20,33 @@ export const saveLibro = async (req: any, res: any) => {
         return res.status(200).json({
             error: false,
             message: "Libro guardado exitosamente",
+            resultDB
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+        });
+
+    }
+};
+
+//====================
+// DELETE  /libro/:id
+//=====================
+export const deleteLibro = async (req: any, res: any) => {
+    let body = req.body;
+    let id_libro = parseInt(req.params.id);
+
+    try {
+
+        const resultDB = await deleteLibroService(id_libro);
+        
+        return res.status(200).json({
+            error: false,
+            message: `El libro con codigo ${id_libro} ha sido eliminado`,
             resultDB
         });
 

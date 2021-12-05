@@ -1,6 +1,6 @@
 
 import { Prestamo } from "../interfaces/database";
-import { savePrestamoService } from "../provider/provider.prestamo";
+import { deletePrestamoService, savePrestamoService } from "../provider/provider.prestamo";
 
 
 //====================
@@ -36,3 +36,31 @@ export const savePrestamo = async (req: any, res: any) => {
     }
 };
 
+
+
+//====================
+// DELETE  /prestamo/:id
+//=====================
+export const deletePrestamo = async (req: any, res: any) => {
+    let body = req.body;
+    let id_prestamo = parseInt(req.params.id);
+
+    try {
+
+        const resultDB = await deletePrestamoService(id_prestamo);
+        
+        return res.status(200).json({
+            error: false,
+            message: `El prestamo con codigo ${id_prestamo} ha sido eliminado`,
+            resultDB
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+        });
+
+    }
+};

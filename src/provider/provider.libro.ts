@@ -12,3 +12,12 @@ export const saveLibroService = async (params: Libro) => {
         return false;
     }
 };
+export const deleteLibroService = async (id: number) => {
+
+    return await conDB("libro")
+    .where({
+        'id_libro': id
+    })
+    .del();
+
+};

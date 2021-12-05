@@ -1,7 +1,7 @@
 import  { Router } from 'express';
 import { validatorCamposUser } from '../middlewares/validar-campos';
 const router = Router();
-import  {  saveUser } from '../controllers/controller.usuario';
+import  {  deleteUsuario, saveUser } from '../controllers/controller.usuario';
 
 
 
@@ -10,6 +10,7 @@ import  {  saveUser } from '../controllers/controller.usuario';
 //=====================
 
 router.post('/', [validatorCamposUser], saveUser);
+router.delete('/:id', deleteUsuario);
 
 
 

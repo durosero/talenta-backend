@@ -1,6 +1,6 @@
 
 import { Usuario } from "../interfaces/database";
-import { saveUserService } from "../provider/provider.usuario";
+import { deleteUsuarioService, saveUserService } from "../provider/provider.usuario";
 
 
 //====================
@@ -37,3 +37,30 @@ export const saveUser = async (req: any, res: any) => {
     }
 };
 
+
+//====================
+// DELETE  /usuario/:id
+//=====================
+export const deleteUsuario = async (req: any, res: any) => {
+    let body = req.body;
+    let id_usuario = parseInt(req.params.id);
+
+    try {
+
+        const resultDB = await deleteUsuarioService(id_usuario);
+        
+        return res.status(200).json({
+            error: false,
+            message: `El usuario con codigo ${id_usuario} ha sido eliminado`,
+            resultDB
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+        });
+
+    }
+};

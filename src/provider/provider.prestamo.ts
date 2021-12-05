@@ -12,3 +12,15 @@ export const savePrestamoService = async (params: Prestamo) => {
         return false;
     }
 };
+
+
+export const deletePrestamoService = async (id: number) => {
+
+    return await conDB("prestamo")
+    .where({
+        'id_prestamo': id
+    })
+    .del();
+
+};
+
