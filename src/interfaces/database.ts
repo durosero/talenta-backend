@@ -17,7 +17,7 @@ export interface Libro {
 }
 
 export interface Prestamo {
-    prestamo_id?: number;
+    id_prestamo?: number;
     libro_id:  number;
     usuario_id : number;
     fecha_prestamo: Date;

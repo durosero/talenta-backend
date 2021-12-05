@@ -4,6 +4,7 @@ const app = express();
 
 import routerUsuario from "./router.usuario";
 import routerLibro from "./router.libro";
+import routerPrestamo from "./router.prestamo";
 
 import routerInicio from "./router.inicio";
 
@@ -23,5 +24,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/usuario", routerUsuario);
 app.use("/libro", routerLibro);
+app.use("/prestamo", routerPrestamo);
 
 export default app;

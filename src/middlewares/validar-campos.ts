@@ -6,7 +6,6 @@ Validator.useLang("es");
 
 export const validatorCamposUser = (req: any, res: any, next: any) => {
 
-
   const validationRule = {
     id_usuario:  "present|numeric",
     nombres: "required|string",
@@ -32,7 +31,6 @@ export const validatorCamposUser = (req: any, res: any, next: any) => {
 
 export const validatorCamposLibro = (req: any, res: any, next: any) => {
 
-
   const validationRule = {
 
     titulo: "required|string",
@@ -55,3 +53,28 @@ export const validatorCamposLibro = (req: any, res: any, next: any) => {
   }
 };
 
+
+export const validatorCamposPrestamo = (req: any, res: any, next: any) => {
+
+  const validationRule = {
+
+    id_prestamo :   "present|numeric",
+    libro_id :  "required|numeric",
+    usuario_id :  "required|numeric",
+    fecha_prestamo :  "required|date",
+    fecha_devolucion :  "required|date",
+    devuelto :  "required|string",
+  };
+
+  let validation = new Validator(req.body, validationRule);
+
+  if (validation.passes()) {
+    next();
+  } else {
+    res.status(412).send({
+      error: true,
+      message: "Hay campos obligatorios sin completar",
+      errors: validation.errors.all(),
+    });
+  }
+};
