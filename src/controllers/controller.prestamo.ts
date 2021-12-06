@@ -1,6 +1,6 @@
 
-import { Prestamo } from "../interfaces/database";
-import { deletePrestamoService, savePrestamoService } from "../provider/provider.prestamo";
+import { Prestamo } from '../interfaces/database';
+import { deletePrestamoService, listPrestamoService, savePrestamoService } from "../provider/provider.prestamo";
 
 
 //====================
@@ -64,3 +64,39 @@ export const deletePrestamo = async (req: any, res: any) => {
 
     }
 };
+
+
+
+//====================
+// GET  /prestamo/lista
+//=====================
+export const listPrestamo = async (req: any, res: any) => {
+
+    try {
+
+        const resultDB: Prestamo[] = await listPrestamoService();
+
+        let mensaje: string = "No se encontraron resultados";
+
+        if (resultDB.length > 0) {
+            mensaje = `Se han encontrado ${resultDB.length} resultados`;
+        }
+
+        return res.status(200).json({
+            error: false,
+            message: mensaje,
+            data: resultDB
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+            data: []
+        });
+
+    }
+};
+
+

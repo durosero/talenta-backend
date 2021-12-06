@@ -1,7 +1,7 @@
 import  { Router } from 'express';
 import { validatorCamposLibro, validatorCamposPrestamo, validatorCamposUser } from '../middlewares/validar-campos';
 const router = Router();
-import  {  deletePrestamo, savePrestamo } from '../controllers/controller.prestamo';
+import  {  deletePrestamo, listPrestamo, savePrestamo } from '../controllers/controller.prestamo';
 
 
 
@@ -11,7 +11,7 @@ import  {  deletePrestamo, savePrestamo } from '../controllers/controller.presta
 
 router.post('/', [validatorCamposPrestamo], savePrestamo);
 router.delete('/:id', deletePrestamo);
-
+router.get('/lista', listPrestamo);
 
 
 export default router;

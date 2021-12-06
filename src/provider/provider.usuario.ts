@@ -24,5 +24,8 @@ export const deleteUsuarioService = async (id: number) => {
         'id_usuario': id
     })
     .del();
+};
 
+export const listUsuarioService = async () : Promise<[]> => {
+    return await conDB.select().from('usuario');
 };

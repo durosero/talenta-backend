@@ -21,3 +21,6 @@ export const deleteLibroService = async (id: number) => {
     .del();
 
 };
+export const listLibroService = async () : Promise<[]> => {
+    return await conDB.select().from('libro');
+};

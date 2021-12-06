@@ -1,7 +1,7 @@
 import  { Router } from 'express';
 import { validatorCamposUser } from '../middlewares/validar-campos';
 const router = Router();
-import  {  deleteUsuario, saveUser } from '../controllers/controller.usuario';
+import  {  deleteUsuario, listUsuario, saveUser } from '../controllers/controller.usuario';
 
 
 
@@ -11,7 +11,7 @@ import  {  deleteUsuario, saveUser } from '../controllers/controller.usuario';
 
 router.post('/', [validatorCamposUser], saveUser);
 router.delete('/:id', deleteUsuario);
-
+router.get('/lista',listUsuario);
 
 
 

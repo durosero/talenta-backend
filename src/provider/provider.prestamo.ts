@@ -24,3 +24,8 @@ export const deletePrestamoService = async (id: number) => {
 
 };
 
+
+export const listPrestamoService = async () : Promise<[]> => {
+    return await conDB.select().from('prestamo');
+};
+

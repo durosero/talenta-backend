@@ -1,6 +1,6 @@
 
-import { Usuario } from "../interfaces/database";
-import { deleteUsuarioService, saveUserService } from "../provider/provider.usuario";
+import { Usuario } from '../interfaces/database';
+import { deleteUsuarioService, listUsuarioService, saveUserService } from "../provider/provider.usuario";
 
 
 //====================
@@ -64,3 +64,38 @@ export const deleteUsuario = async (req: any, res: any) => {
 
     }
 };
+
+
+
+//====================
+// GET  /usuario/lista
+//=====================
+export const listUsuario = async (req: any, res: any) => {
+
+    try {
+
+        const resultDB: Usuario[] = await listUsuarioService();
+
+        let mensaje: string = "No se encontraron resultados";
+
+        if (resultDB.length > 0) {
+            mensaje = `Se han encontrado ${resultDB.length} resultados`;
+        }
+
+        return res.status(200).json({
+            error: false,
+            message: mensaje,
+            data: resultDB
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+            data: []
+        });
+
+    }
+};
+
