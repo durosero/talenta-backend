@@ -1,6 +1,7 @@
 
 import { Prestamo } from '../interfaces/database';
 import { deletePrestamoService, listPrestamoService, savePrestamoService } from "../provider/provider.prestamo";
+import { PrestamoLibro } from '../models/PrestamoLibro';
 
 
 //====================
@@ -74,7 +75,7 @@ export const listPrestamo = async (req: any, res: any) => {
 
     try {
 
-        const resultDB: Prestamo[] = await listPrestamoService();
+        const resultDB: PrestamoLibro[] = await listPrestamoService();
 
         let mensaje: string = "No se encontraron resultados";
 

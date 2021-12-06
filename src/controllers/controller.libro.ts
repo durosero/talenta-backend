@@ -1,4 +1,4 @@
-import { deleteLibroService, listLibroService, saveLibroService } from "../provider/provider.libro";
+import { deleteLibroService, listarLibrosDisponibleService, listLibroService, saveLibroService } from "../provider/provider.libro";
 import { Libro } from "../interfaces/database";
 
 //====================
@@ -69,6 +69,39 @@ export const listLibros = async (req: any, res: any) => {
     try {
 
         const resultDB: Libro[] = await listLibroService();
+
+        let mensaje: string = "No se encontraron resultados";
+
+        if (resultDB.length > 0) {
+            mensaje = `Se han encontrado ${resultDB.length} resultados`;
+        }
+
+        return res.status(200).json({
+            error: false,
+            message: mensaje,
+            data: resultDB
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+            data: []
+        });
+
+    }
+};
+
+
+//====================
+// GET  /libro/lista
+//=====================
+export const listLibrosDisponibles = async (req: any, res: any) => {
+
+    try {
+
+        const resultDB: Libro[] = await listarLibrosDisponibleService();
 
         let mensaje: string = "No se encontraron resultados";
 
