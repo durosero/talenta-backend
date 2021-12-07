@@ -14,8 +14,8 @@ services:
     ports:
       - ${MYSQL_PROD_PORT}:${MYSQL_DOCKER_PORT}
     volumes:
-      - ./db/database.sql:/docker-entrypoint-initdb.d/db/database.sql:rw
-      - mysql_db_data_container:/var/lib/mysql
+      - ./db/database.sql:/docker-entrypoint-initdb.d/database.sql:rw
+      - mysql_db_data_container:/var/lib/mysql:rw
 
   server:
     build: .
