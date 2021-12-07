@@ -1,0 +1,30 @@
+version: "3.1"
+services:
+  db-mysql:
+    image: mysql:latest
+    container_name: database-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PROD_PASS}
+      MYSQL_DATABASE : ${MYSQL_PROD_DATABASE}
+    ports:
+      - 3307:3306
+    volumes:
+      - ./db/database.sql:/docker-entrypoint-initdb.d/db/database.sql:rw
+      - mysql_db_data_container:/var/lib/mysql
+
+  server:
+    build: .
+    image: backend/rest
+    container_name: backend-rest
+    restart: unless-stopped
+    links: 
+      - db-mysql:db-mysql
+    ports: 
+      - ${PORT}:${PORT}
+    depends_on: 
+      - db-mysql
+volumes:
+  mysql_db_data_container:
+    driver: local

@@ -12,6 +12,7 @@ import  {  deleteUsuario, listUsuario, saveUser } from '../controllers/controlle
 router.post('/', [validatorCamposUser], saveUser);
 router.delete('/:id', deleteUsuario);
 router.get('/lista',listUsuario);
+router.put('/lista',listUsuario);
 
 
 
