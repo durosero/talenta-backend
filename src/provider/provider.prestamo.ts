@@ -15,6 +15,21 @@ export const savePrestamoService = async (params: Prestamo) => {
 };
 
 
+
+export const updatePrestamoService = async (params: Prestamo) => {
+    let result = await conDB
+        ("prestamo")
+        .where('id_prestamo', params.id_prestamo)
+        .update(params)     
+    if (result.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
+
 export const deletePrestamoService = async (id: number) => {
 
     return await conDB("prestamo")

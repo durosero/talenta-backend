@@ -12,6 +12,6 @@ import  {  deletePrestamo, listPrestamo, savePrestamo } from '../controllers/con
 router.post('/', [validatorCamposPrestamo], savePrestamo);
 router.delete('/:id', deletePrestamo);
 router.get('/lista', listPrestamo);
-
+router.put('/', [validatorCamposPrestamo], savePrestamo);
 
 export default router;

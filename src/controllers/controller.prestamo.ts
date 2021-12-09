@@ -1,6 +1,6 @@
 
 import { Prestamo } from '../interfaces/database';
-import { deletePrestamoService, listPrestamoService, savePrestamoService } from "../provider/provider.prestamo";
+import { deletePrestamoService, listPrestamoService, savePrestamoService, updatePrestamoService } from "../provider/provider.prestamo";
 import { PrestamoLibro } from '../models/PrestamoLibro';
 
 
@@ -19,7 +19,14 @@ export const savePrestamo = async (req: any, res: any) => {
             devuelto: body.devuelto
         };
 
-        const resultDB = await savePrestamoService(data);
+        let resultDB = {};
+
+        if (req.method == "POST") {
+            resultDB = await savePrestamoService(data);
+        } else {
+            data.id_prestamo =  body.id_prestamo || 0;
+            resultDB = await updatePrestamoService(data);
+        }
 
         return res.status(200).json({
             error: false,
