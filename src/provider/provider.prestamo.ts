@@ -32,28 +32,83 @@ export const listPrestamoService2 = async () : Promise<Prestamo[]> => {
 
 
 //obtiene todos los prestamos con sus respectivos libros y usuarios
-export const listPrestamoService = async () : Promise<PrestamoLibro[]> => {
-    let result = await conDB
+export const listPrestamoService = async (start: number, limite:number) : Promise<{}> => {
+
+
+    const trx = await conDB.transaction();
+
+    try {
+
+        let result : PrestamoLibro[] = await trx
         .select(
-            'prestamo.id_prestamo'
-            , 'libro.id_libro'
-            , 'libro.titulo'
-            , 'libro.editorial'
-            , 'libro.nombre_autor'
-            , 'libro.area'
-            , 'prestamo.fecha_prestamo'
-            , 'prestamo.fecha_devolucion'
-            , 'prestamo.devuelto'
-            , 'usuario.id_usuario'
-            , 'usuario.nombres'
-            , 'usuario.apellidos'
-            , 'usuario.email'
-            , 'usuario.celular'
+            trx.raw(`SQL_CALC_FOUND_ROWS 
+            libro.id_libro
+            ,libro.titulo
+            ,libro.editorial
+            ,libro.nombre_autor
+            ,libro.area
+            ,prestamo.fecha_prestamo
+            ,prestamo.fecha_devolucion
+            ,prestamo.devuelto
+            ,usuario.id_usuario
+            ,usuario.nombres
+            ,usuario.apellidos
+            ,usuario.email
+            ,usuario.celular
+            `)
         )
         .from("prestamo")
         .join("libro", "prestamo.libro_id ", "=", "libro.id_libro")
         .join("usuario", "prestamo.usuario_id", "=", "usuario.id_usuario")
         .groupBy('prestamo.id_prestamo')
-        .orderBy('prestamo.id_prestamo', 'DESC');
-    return result;
+        .orderBy('prestamo.id_prestamo', 'DESC')
+        .limit(limite)
+        .offset(start);
+        const total =  await  trx.select(trx.raw('found_rows()')); 
+        
+
+        const  data : any =  {
+            result : result,
+            total : total[0]['found_rows()'] || 0
+        }
+        trx.commit();
+
+        return data;
+        
+    } catch (error) {
+        const  data : any =  {
+            result : [],
+            total : 0
+        }
+        trx.rollback();
+        return data;
+    }
+
+
+
+    // let result = await conDB
+    //     .select(
+    //         '  prestamo.id_prestamo'
+    //         , 'libro.id_libro'
+    //         , 'libro.titulo'
+    //         , 'libro.editorial'
+    //         , 'libro.nombre_autor'
+    //         , 'libro.area'
+    //         , 'prestamo.fecha_prestamo'
+    //         , 'prestamo.fecha_devolucion'
+    //         , 'prestamo.devuelto'
+    //         , 'usuario.id_usuario'
+    //         , 'usuario.nombres'
+    //         , 'usuario.apellidos'
+    //         , 'usuario.email'
+    //         , 'usuario.celular'
+    //     )
+    //     .from("prestamo")
+    //     .join("libro", "prestamo.libro_id ", "=", "libro.id_libro")
+    //     .join("usuario", "prestamo.usuario_id", "=", "usuario.id_usuario")
+    //     .groupBy('prestamo.id_prestamo')
+    //     .orderBy('prestamo.id_prestamo', 'DESC');
+    // return result;
+
+
 };

@@ -100,7 +100,8 @@ export const listUsuario = async (req: any, res: any) => {
         return res.status(200).json({
             error: false,
             message: mensaje,
-            data: usuarios
+            data: usuarios,
+            total: resultDB.total
         });
 
     } catch (error) {
@@ -108,7 +109,8 @@ export const listUsuario = async (req: any, res: any) => {
         return res.status(500).json({
             error: true,
             message: "Algo salio mal",
-            data: []
+            data: [],
+            total : 0
         });
 
     }

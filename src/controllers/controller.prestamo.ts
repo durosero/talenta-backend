@@ -75,18 +75,24 @@ export const listPrestamo = async (req: any, res: any) => {
 
     try {
 
-        const resultDB: PrestamoLibro[] = await listPrestamoService();
+        const start: number = Number(req.query.start) || 0;
+        const limite: number = Number(req.query.limite) || 10;
+
+        const resultDB: any = await listPrestamoService(start, limite);
+        const prestamos: PrestamoLibro[] = resultDB.result;
+
 
         let mensaje: string = "No se encontraron resultados";
 
-        if (resultDB.length > 0) {
-            mensaje = `Se han encontrado ${resultDB.length} resultados`;
+        if (prestamos.length > 0) {
+            mensaje = `Se han encontrado ${prestamos.length} resultados`;
         }
 
         return res.status(200).json({
             error: false,
             message: mensaje,
-            data: resultDB
+            data: prestamos,
+            total :  resultDB.total
         });
 
     } catch (error) {
@@ -94,7 +100,8 @@ export const listPrestamo = async (req: any, res: any) => {
         return res.status(500).json({
             error: true,
             message: "Algo salio mal",
-            data: []
+            data: [],
+            total :  0
         });
 
     }
