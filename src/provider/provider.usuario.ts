@@ -17,6 +17,20 @@ export const saveUserService = async (params: Usuario) => {
 };
 
 
+
+export const updateUsuarioService = async (params: Usuario) => {
+    let result = await conDB
+        ("usuario")
+        .where('id_usuario', params.id_usuario)
+        .update(params)     
+    if (result.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
 export const deleteUsuarioService = async (id: number) => {
 
     return await conDB("usuario")

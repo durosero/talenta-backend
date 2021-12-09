@@ -75,8 +75,8 @@ export const listLibroService = async (start: number, limite:number) : Promise<{
         .leftJoin("prestamo", "prestamo.libro_id", "=", "libro.id_libro")
         .groupBy('libro.id_libro')
         .orderBy([{ column: 'prestamo.devuelto', order: 'ASC' }, { column: 'libro.id_libro', order: 'DESC' }, { column: 'libro.titulo', order: 'ASC' }])
-         .limit(limite)
-         .offset(start)
+        .limit(limite)
+        .offset(start)
         const total =  await  trx.select(trx.raw('found_rows()')); 
         
         for(const row of result){
@@ -86,13 +86,11 @@ export const listLibroService = async (start: number, limite:number) : Promise<{
                 row.disponible=row.devuelto;
             }
             delete row['devuelto'];
-
         }
 
         const  data : any =  {
             result : result,
             total : total[0]['found_rows()'] || 0
-
         }
         trx.commit();
 

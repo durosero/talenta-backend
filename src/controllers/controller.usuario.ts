@@ -1,6 +1,7 @@
 
 import { Usuario } from '../interfaces/database';
-import { deleteUsuarioService, listUsuarioService, saveUserService } from "../provider/provider.usuario";
+import { deleteUsuarioService, listUsuarioService, saveUserService, updateUsuarioService } from "../provider/provider.usuario";
+import { updateLibroService } from '../provider/provider.libro';
 
 
 //====================
@@ -19,7 +20,16 @@ export const saveUser = async (req: any, res: any) => {
             celular: body.genero
         };
 
-        const resultDB = await saveUserService(data);
+        let resultDB = {};
+
+        if (req.method == "POST") {
+            resultDB = await saveUserService(data);
+        } else {
+            data.id_usuario =  body.id_usuario || 0;
+            resultDB = await updateUsuarioService(data);
+        }
+
+       
 
         return res.status(200).json({
             error: false,

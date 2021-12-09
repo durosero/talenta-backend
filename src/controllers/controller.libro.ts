@@ -25,9 +25,6 @@ export const saveLibro = async (req: any, res: any) => {
             resultDB = await updateLibroService(data);
         }
 
-
-
-
         return res.status(200).json({
             error: false,
             message: "Libro guardado exitosamente",
