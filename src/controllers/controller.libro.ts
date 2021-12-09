@@ -1,4 +1,4 @@
-import { deleteLibroService, listarLibrosDisponibleService, listLibroService, saveLibroService } from "../provider/provider.libro";
+import { deleteLibroService, listarLibrosDisponibleService, listLibroService, saveLibroService, updateLibroService } from "../provider/provider.libro";
 import { Libro } from '../interfaces/database';
 
 //====================
@@ -6,6 +6,7 @@ import { Libro } from '../interfaces/database';
 //=====================
 export const saveLibro = async (req: any, res: any) => {
     let body = req.body;
+
 
     try {
         const data: Libro = {
@@ -15,7 +16,17 @@ export const saveLibro = async (req: any, res: any) => {
             area: body.area,
         };
 
-        const resultDB = await saveLibroService(data);
+        let resultDB = {};
+
+        if (req.method == "POST") {
+            resultDB = await saveLibroService(data);
+        } else {
+            data.id_libro =  body.id_libro || 0;
+            resultDB = await updateLibroService(data);
+        }
+
+
+
 
         return res.status(200).json({
             error: false,
@@ -68,8 +79,8 @@ export const listLibros = async (req: any, res: any) => {
 
     try {
 
-        const start : number  =  Number(req.query.start) || 0;
-        const limite : number  =  Number(req.query.limite) || 10;
+        const start: number = Number(req.query.start) || 0;
+        const limite: number = Number(req.query.limite) || 10;
         const resultDB: any = await listLibroService(start, limite);
         const libros: Libro[] = resultDB.result;
 

@@ -13,6 +13,7 @@ router.post('/', [validatorCamposLibro], saveLibro);
 router.delete('/:id', deleteLibro);
 router.get('/lista', listLibros);
 router.get('/disponibles', listLibrosDisponibles);
+router.put('/', [validatorCamposLibro], saveLibro);
 
 
 
