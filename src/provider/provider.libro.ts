@@ -47,21 +47,29 @@ export const listarLibrosDisponibleService = async () : Promise<Libro[]> => {
 
 
 // lista todos los libros con su respectivo estado, pendiente paginacion
-export const listLibroService = async () : Promise<Libro[]> => {
-    let result = await conDB
+export const listLibroService = async (start: number, limite:number) : Promise<any> => {
+    const trx = await conDB.transaction();
+
+    try {
+
+        let result = await trx
         .select(
-            'libro.id_libro'
-            , 'libro.titulo'
-            , 'libro.editorial'
-            , 'libro.nombre_autor'
-            , 'libro.area'
-            , 'prestamo.devuelto'
+            trx.raw('SQL_CALC_FOUND_ROWS libro.id_libro, libro.titulo, libro.editorial, libro.nombre_autor, libro.area , prestamo.devuelto'),
+            // 'libro.id_libro'
+            // , 'libro.titulo'
+            // , 'libro.editorial'
+            // , 'libro.nombre_autor'
+            // , 'libro.area'
+            // , 'prestamo.devuelto'
         )
         .from("libro")
         .leftJoin("prestamo", "prestamo.libro_id", "=", "libro.id_libro")
         .groupBy('libro.id_libro')
-        .orderBy([{ column: 'prestamo.devuelto', order: 'ASC' }, { column: 'libro.titulo', order: 'ASC' }]);
-
+        .orderBy([{ column: 'prestamo.devuelto', order: 'ASC' }, { column: 'libro.titulo', order: 'ASC' }])
+         .limit(limite)
+         .offset(start)
+        const total =  await  trx.select(trx.raw('found_rows()')); 
+        
         for(const row of result){
             if(row.devuelto==null){
                 row.disponible =  'SI';
@@ -71,5 +79,37 @@ export const listLibroService = async () : Promise<Libro[]> => {
             delete row['devuelto'];
 
         }
-    return result;
+
+        const  data : any =  {
+            result : result,
+            total : total[0]['found_rows()'] || 0
+
+        }
+        trx.commit();
+
+        return data;
+        
+    } catch (error) {
+        const  data : any =  {
+            result : [],
+            total : 0
+        }
+        trx.rollback();
+        return data;
+    }
+
+
+
+        // for(const row of result){
+        //     if(row.devuelto==null){
+        //         row.disponible =  'SI';
+        //     }else{
+        //         row.disponible=row.devuelto;
+        //     }
+        //     delete row['devuelto'];
+
+        // }
+
+
+ //   return result;
 };
