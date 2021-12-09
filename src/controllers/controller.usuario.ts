@@ -74,18 +74,23 @@ export const listUsuario = async (req: any, res: any) => {
 
     try {
 
-        const resultDB: Usuario[] = await listUsuarioService();
+        const start: number = Number(req.query.start) || 0;
+        const limite: number = Number(req.query.limite) || 10;
+
+
+        const resultDB: any = await listUsuarioService(start,limite);
+        const usuarios : Usuario[] =  resultDB.result;
 
         let mensaje: string = "No se encontraron resultados";
 
-        if (resultDB.length > 0) {
-            mensaje = `Se han encontrado ${resultDB.length} resultados`;
+        if (usuarios.length > 0) {
+            mensaje = `Se han encontrado ${usuarios.length} resultados`;
         }
 
         return res.status(200).json({
             error: false,
             message: mensaje,
-            data: resultDB
+            data: usuarios
         });
 
     } catch (error) {

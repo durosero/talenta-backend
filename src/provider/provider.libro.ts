@@ -62,7 +62,7 @@ export const listarLibrosDisponibleService = async () : Promise<Libro[]> => {
 
 
 // lista todos los libros con su respectivo estado, pendiente paginacion
-export const listLibroService = async (start: number, limite:number) : Promise<any> => {
+export const listLibroService = async (start: number, limite:number) : Promise<{}> => {
     const trx = await conDB.transaction();
 
     try {
@@ -70,12 +70,6 @@ export const listLibroService = async (start: number, limite:number) : Promise<a
         let result = await trx
         .select(
             trx.raw('SQL_CALC_FOUND_ROWS libro.id_libro, libro.titulo, libro.editorial, libro.nombre_autor, libro.area , prestamo.devuelto'),
-            // 'libro.id_libro'
-            // , 'libro.titulo'
-            // , 'libro.editorial'
-            // , 'libro.nombre_autor'
-            // , 'libro.area'
-            // , 'prestamo.devuelto'
         )
         .from("libro")
         .leftJoin("prestamo", "prestamo.libro_id", "=", "libro.id_libro")
@@ -113,18 +107,4 @@ export const listLibroService = async (start: number, limite:number) : Promise<a
         return data;
     }
 
-
-
-        // for(const row of result){
-        //     if(row.devuelto==null){
-        //         row.disponible =  'SI';
-        //     }else{
-        //         row.disponible=row.devuelto;
-        //     }
-        //     delete row['devuelto'];
-
-        // }
-
-
- //   return result;
 };
