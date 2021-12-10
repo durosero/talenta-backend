@@ -1,6 +1,6 @@
 
 import { Usuario } from '../interfaces/database';
-import { deleteUsuarioService, listUsuarioService, saveUserService, updateUsuarioService } from "../provider/provider.usuario";
+import { deleteUsuarioService, listUsuarioBusquedaService, listUsuarioService, saveUserService, updateUsuarioService } from "../provider/provider.usuario";
 import { updateLibroService } from '../provider/provider.libro';
 
 
@@ -28,8 +28,6 @@ export const saveUser = async (req: any, res: any) => {
             data.id_usuario =  body.id_usuario || 0;
             resultDB = await updateUsuarioService(data);
         }
-
-       
 
         return res.status(200).json({
             error: false,
@@ -102,6 +100,42 @@ export const listUsuario = async (req: any, res: any) => {
             message: mensaje,
             data: usuarios,
             total: resultDB.total
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: true,
+            message: "Algo salio mal",
+            data: [],
+            total : 0
+        });
+
+    }
+};
+
+//====================
+// GET  /usuario/busqueda
+//=====================
+export const buscarUsuario = async (req: any, res: any) => {
+
+    try {
+
+        let termino : string = req.query.termino || "";
+
+  
+        const resultDB: Usuario[] = await listUsuarioBusquedaService(termino);
+
+        let mensaje: string = "No se encontraron resultados";
+
+        if (resultDB.length > 0) {
+            mensaje = `Se han encontrado ${resultDB.length} resultados`;
+        }
+
+        return res.status(200).json({
+            error: false,
+            message: mensaje,
+            data: resultDB,
         });
 
     } catch (error) {

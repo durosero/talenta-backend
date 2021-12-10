@@ -40,6 +40,14 @@ export const deleteUsuarioService = async (id: number) => {
     .del();
 };
 
+
+export const listUsuarioBusquedaService = async (termino: string) : Promise<Usuario[]> => {
+    return await conDB("usuario")
+    .whereRaw(`CONCAT_WS(' ', usuario.id_usuario, usuario.nombres,usuario.apellidos) LIKE '%${termino}%'`, [])
+    .limit(5);
+
+}
+
 export const listUsuarioService = async (start: number, limite:number) : Promise<{}> => {
 
     const trx = await conDB.transaction();

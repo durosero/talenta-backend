@@ -62,6 +62,7 @@ export const listPrestamoService = async (start: number, limite:number) : Promis
             ,libro.editorial
             ,libro.nombre_autor
             ,libro.area
+            ,prestamo.id_prestamo
             ,prestamo.fecha_prestamo
             ,prestamo.fecha_devolucion
             ,prestamo.devuelto
