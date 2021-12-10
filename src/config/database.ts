@@ -14,7 +14,7 @@ const db: any = {
     user: process.env.MSYQL_PROD_USER,
     password: process.env.MYSQL_PROD_PASS,
     database: process.env.MYSQL_PROD_DATABASE,
-    port: process.env.MYSQL_PROD_POST,
+    port: process.env.MYSQL_PROD_PORT,
   },
 };
 
