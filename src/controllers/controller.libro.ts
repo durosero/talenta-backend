@@ -1,5 +1,6 @@
 import { deleteLibroService, listarLibrosDisponibleService, listLibroService, saveLibroService, updateLibroService } from "../provider/provider.libro";
 import { Libro } from '../interfaces/database';
+import { format } from "date-format-parse";
 
 //====================
 // POST  /libro/
@@ -51,7 +52,6 @@ export const deleteLibro = async (req: any, res: any) => {
     try {
 
         const resultDB = await deleteLibroService(id_libro);
-
         return res.status(200).json({
             error: false,
             message: `El libro con codigo ${id_libro} ha sido eliminado`,
@@ -79,6 +79,11 @@ export const listLibros = async (req: any, res: any) => {
         const start: number = Number(req.query.start) || 0;
         const limite: number = Number(req.query.limite) || 10;
         const resultDB: any = await listLibroService(start, limite);
+
+        // for(const row of resultDB.result){
+        //     row.fecha_devolucion =  format(row.fecha_devolucion, 'DD-MM-YYYY');
+        //     row.fecha_prestamo =  format(row.fecha_prestamo, 'DD-MM-YYYY');
+        // }
         const libros: Libro[] = resultDB.result;
 
         let mensaje: string = "No se encontraron resultados";
@@ -112,9 +117,11 @@ export const listLibros = async (req: any, res: any) => {
 //=====================
 export const listLibrosDisponibles = async (req: any, res: any) => {
 
+    let termino : string = req.query.termino || "";
+
     try {
 
-        const resultDB: Libro[] = await listarLibrosDisponibleService();
+        const resultDB: Libro[] = await listarLibrosDisponibleService(termino);
 
         let mensaje: string = "No se encontraron resultados";
 

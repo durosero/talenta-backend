@@ -42,7 +42,9 @@ export const deleteLibroService = async (id: number) => {
 
 
 // lista todos los libros disponibles
-export const listarLibrosDisponibleService = async () : Promise<Libro[]> => {
+
+
+export const listarLibrosDisponibleService = async (termino:string) : Promise<Libro[]> => {
     let result = await conDB
         .select(
             'libro.id_libro'
@@ -54,9 +56,10 @@ export const listarLibrosDisponibleService = async () : Promise<Libro[]> => {
         .from("libro")
         .leftJoin("prestamo", "prestamo.libro_id", "=", "libro.id_libro")
         .where({ "prestamo.devuelto": 'SI' })
+        .whereRaw(`CONCAT_WS(' ', libro.titulo, libro.editorial,libro.nombre_autor) LIKE '%${termino}%'`, [])
         .orWhereNull('prestamo.devuelto')
         .groupBy('libro.id_libro')
-        .orderBy('libro.titulo', 'ASC');
+        .orderBy('libro.titulo', 'ASC')
     return result;
 };
 

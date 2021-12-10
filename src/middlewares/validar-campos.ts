@@ -58,7 +58,7 @@ export const validatorCamposPrestamo = (req: any, res: any, next: any) => {
 
   const validationRule = {
 
-    id_prestamo :   "present|numeric",
+    id_prestamo :   "numeric",
     libro_id :  "required|numeric",
     usuario_id :  "required|numeric",
     fecha_prestamo :  "required|date",
