@@ -1,6 +1,10 @@
-import { deleteLibroService, listarLibrosDisponibleService, listLibroService, saveLibroService, updateLibroService } from "../provider/provider.libro";
-import { Libro } from '../interfaces/database';
+import {  listarLibrosDisponibleService } from "../provider/provider.libro";
 import { format } from "date-format-parse";
+
+
+
+import { LibroDTO } from "../interfaces/database";
+import { saveLibroService, updateLibroService, deleteLibroService, listLibroService } from "../services/service.libro";
 
 //====================
 // POST  /libro/
@@ -8,9 +12,8 @@ import { format } from "date-format-parse";
 export const saveLibro = async (req: any, res: any) => {
     let body = req.body;
 
-
     try {
-        const data: Libro = {
+        const data: LibroDTO = {
             titulo: body.titulo,
             editorial: body.editorial,
             nombre_autor: body.nombre_autor,
@@ -24,6 +27,10 @@ export const saveLibro = async (req: any, res: any) => {
         } else {
             data.id_libro =  body.id_libro || 0;
             resultDB = await updateLibroService(data);
+
+            if(!resultDB){
+                throw new Error("No se encontró el libro");
+            }
         }
 
         return res.status(200).json({
@@ -37,6 +44,7 @@ export const saveLibro = async (req: any, res: any) => {
         return res.status(500).json({
             error: true,
             message: "Algo salio mal",
+            det_error: error.toString()
         });
 
     }
@@ -52,6 +60,15 @@ export const deleteLibro = async (req: any, res: any) => {
     try {
 
         const resultDB = await deleteLibroService(id_libro);
+
+        if(!resultDB){
+            return res.status(200).json({
+                error: false,
+                message: `El libro con codigo ${id_libro} no se encontró`,
+                resultDB
+            });
+        }
+
         return res.status(200).json({
             error: false,
             message: `El libro con codigo ${id_libro} ha sido eliminado`,
@@ -84,7 +101,7 @@ export const listLibros = async (req: any, res: any) => {
         //     row.fecha_devolucion =  format(row.fecha_devolucion, 'DD-MM-YYYY');
         //     row.fecha_prestamo =  format(row.fecha_prestamo, 'DD-MM-YYYY');
         // }
-        const libros: Libro[] = resultDB.result;
+        const libros: LibroDTO[] = resultDB.result;
 
         let mensaje: string = "No se encontraron resultados";
 
@@ -121,7 +138,7 @@ export const listLibrosDisponibles = async (req: any, res: any) => {
 
     try {
 
-        const resultDB: Libro[] = await listarLibrosDisponibleService(termino);
+        const resultDB: any = await listarLibrosDisponibleService(termino);
 
         let mensaje: string = "No se encontraron resultados";
 

@@ -1,5 +1,5 @@
 
-import { Prestamo } from '../interfaces/database';
+import { PrestamoDTO } from '../interfaces/database';
 import { deletePrestamoService, listPrestamoService, savePrestamoService, updatePrestamoService } from "../provider/provider.prestamo";
 import { PrestamoLibro } from '../models/PrestamoLibro';
 
@@ -11,7 +11,7 @@ export const savePrestamo = async (req: any, res: any) => {
     let body = req.body;
 
     try {
-        const data: Prestamo = {
+        const data: PrestamoDTO = {
             libro_id: body.libro_id,
             usuario_id: body.usuario_id,
             fecha_prestamo: body.fecha_prestamo,

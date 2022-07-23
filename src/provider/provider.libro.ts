@@ -1,7 +1,7 @@
-import { Libro } from '../interfaces/database';
+import { LibroDTO } from '../interfaces/database';
 import { conDB } from "../config/database";
 
-export const saveLibroService = async (params: Libro) => {
+export const saveLibroService = async (params: LibroDTO) => {
 
     let result = await conDB
     ("libro")
@@ -13,7 +13,7 @@ if (result.length > 0) {
     return false;
 }
 };
-export const updateLibroService = async (params: Libro) => {
+export const updateLibroService = async (params: LibroDTO) => {
     let result = await conDB
         ("libro")
         .where('id_libro', params.id_libro)
@@ -44,7 +44,7 @@ export const deleteLibroService = async (id: number) => {
 // lista todos los libros disponibles
 
 
-export const listarLibrosDisponibleService = async (termino:string) : Promise<Libro[]> => {
+export const listarLibrosDisponibleService = async (termino:string) : Promise<LibroDTO[]> => {
     let result = await conDB
         .select(
             'libro.id_libro'

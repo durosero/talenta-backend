@@ -1,10 +1,10 @@
 import { conDB } from "../config/database";
 import { parse, format } from 'date-format-parse';
-import {  Usuario } from "../interfaces/database";
+import {  UsuarioDTO } from "../interfaces/database";
 
 
 
-export const saveUserService = async (params: Usuario) => {
+export const saveUserService = async (params: UsuarioDTO) => {
     let result = await conDB
         ("usuario")
         .insert(params);
@@ -18,7 +18,7 @@ export const saveUserService = async (params: Usuario) => {
 
 
 
-export const updateUsuarioService = async (params: Usuario) => {
+export const updateUsuarioService = async (params: UsuarioDTO) => {
     let result = await conDB
         ("usuario")
         .where('id_usuario', params.id_usuario)
@@ -41,7 +41,7 @@ export const deleteUsuarioService = async (id: number) => {
 };
 
 
-export const listUsuarioBusquedaService = async (termino: string) : Promise<Usuario[]> => {
+export const listUsuarioBusquedaService = async (termino: string) : Promise<UsuarioDTO[]> => {
     return await conDB("usuario")
     .whereRaw(`CONCAT_WS(' ', usuario.id_usuario, usuario.nombres,usuario.apellidos) LIKE '%${termino}%'`, [])
     .limit(5);

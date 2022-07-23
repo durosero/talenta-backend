@@ -1,4 +1,4 @@
-export interface Usuario {
+export interface UsuarioDTO {
     id_usuario?: number;
     nombres: string;
     apellidos: string;
@@ -8,7 +8,7 @@ export interface Usuario {
 }
 
 
-export interface Libro {
+export interface LibroDTO {
     id_libro? :  number;
     titulo: string;
     editorial:  string;
@@ -16,7 +16,7 @@ export interface Libro {
     area: string;
 }
 
-export interface Prestamo {
+export interface PrestamoDTO {
     id_prestamo?: number;
     libro_id:  number;
     usuario_id : number;

@@ -3,11 +3,14 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
+    "lib": ["ES5","ES6","DOM"],
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
+    "rootDir": "./src",
     "experimentalDecorators" : true,
+    "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]

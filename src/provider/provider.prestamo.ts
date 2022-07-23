@@ -1,9 +1,9 @@
-import { Libro, Prestamo } from "../interfaces/database";
+import { LibroDTO, PrestamoDTO } from "../interfaces/database";
 import { conDB } from "../config/database";
 import { PrestamoLibro } from '../models/PrestamoLibro';
 import { parse, format } from 'date-format-parse';
 
-export const savePrestamoService = async (params: Prestamo) => {
+export const savePrestamoService = async (params: PrestamoDTO) => {
     let result = await conDB
         ("prestamo")
         .insert(params);
@@ -17,7 +17,7 @@ export const savePrestamoService = async (params: Prestamo) => {
 
 
 
-export const updatePrestamoService = async (params: Prestamo) => {
+export const updatePrestamoService = async (params: PrestamoDTO) => {
     let result = await conDB
         ("prestamo")
         .where('id_prestamo', params.id_prestamo)
@@ -42,7 +42,7 @@ export const deletePrestamoService = async (id: number) => {
 };
 
 
-export const listPrestamoService2 = async () : Promise<Prestamo[]> => {
+export const listPrestamoService2 = async () : Promise<PrestamoDTO[]> => {
     return await conDB.select().from('prestamo');
 };
 

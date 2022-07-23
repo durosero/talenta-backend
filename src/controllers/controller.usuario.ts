@@ -1,5 +1,5 @@
 
-import { Usuario } from '../interfaces/database';
+import { UsuarioDTO } from '../interfaces/database';
 import { deleteUsuarioService, listUsuarioBusquedaService, listUsuarioService, saveUserService, updateUsuarioService } from "../provider/provider.usuario";
 import { updateLibroService } from '../provider/provider.libro';
 
@@ -11,7 +11,7 @@ export const saveUser = async (req: any, res: any) => {
     let body = req.body;
 
     try {
-        const data: Usuario = {
+        const data: UsuarioDTO = {
             id_usuario: body.id_usuario,
             nombres: body.nombres,
             apellidos: body.apellidos,
@@ -25,7 +25,7 @@ export const saveUser = async (req: any, res: any) => {
         if (req.method == "POST") {
             resultDB = await saveUserService(data);
         } else {
-            data.id_usuario =  body.id_usuario || 0;
+            data.id_usuario = body.id_usuario || 0;
             resultDB = await updateUsuarioService(data);
         }
 
@@ -56,7 +56,7 @@ export const deleteUsuario = async (req: any, res: any) => {
     try {
 
         const resultDB = await deleteUsuarioService(id_usuario);
-        
+
         return res.status(200).json({
             error: false,
             message: `El usuario con codigo ${id_usuario} ha sido eliminado`,
@@ -86,8 +86,8 @@ export const listUsuario = async (req: any, res: any) => {
         const limite: number = Number(req.query.limite) || 10;
 
 
-        const resultDB: any = await listUsuarioService(start,limite);
-        const usuarios : Usuario[] =  resultDB.result;
+        const resultDB: any = await listUsuarioService(start, limite);
+        const usuarios: UsuarioDTO[] = resultDB.result;
 
         let mensaje: string = "No se encontraron resultados";
 
@@ -108,7 +108,7 @@ export const listUsuario = async (req: any, res: any) => {
             error: true,
             message: "Algo salio mal",
             data: [],
-            total : 0
+            total: 0
         });
 
     }
@@ -121,10 +121,10 @@ export const buscarUsuario = async (req: any, res: any) => {
 
     try {
 
-        let termino : string = req.query.termino || "";
+        let termino: string = req.query.termino || "";
 
-  
-        const resultDB: Usuario[] = await listUsuarioBusquedaService(termino);
+
+        const resultDB: UsuarioDTO[] = await listUsuarioBusquedaService(termino);
 
         let mensaje: string = "No se encontraron resultados";
 
@@ -144,7 +144,7 @@ export const buscarUsuario = async (req: any, res: any) => {
             error: true,
             message: "Algo salio mal",
             data: [],
-            total : 0
+            total: 0
         });
 
     }

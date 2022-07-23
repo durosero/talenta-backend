@@ -5,6 +5,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
 import path from 'path';
+import { conectarDB } from '../config/database';
 
 class Server {
 
@@ -18,14 +19,14 @@ class Server {
         this.middlewares();
         this.routes();
         this.config();
+        conectarDB();
     }
-
 
     middlewares() {
         //Cors
         this.app.use(cors());
 
-
+        
         // parse application/x-www-form-urlencoded
         this.app.use(bodyParser.urlencoded({ extended: false }));
         //body-parser-json
